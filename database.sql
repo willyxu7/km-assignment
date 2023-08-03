@@ -54,5 +54,3 @@ CREATE TABLE sys_seq(
     value SMALLINT,
     PRIMARY KEY (ID)
 );
-
-ALTER TABLE orders MODIFY COLUMN biz_date DATE NOT NULL;
