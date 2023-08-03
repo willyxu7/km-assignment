@@ -1,6 +1,6 @@
 package com.km.assignment.repository;
 
-import com.km.assignment.model.OrderSalesList;
+import com.km.assignment.entity.OrderSales;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +16,7 @@ class OrderSalesRepositoryTest {
 
     @Test
     void testGetSales() {
-        List<OrderSalesList> sales = salesRepository.getOrderSalesSortedByQuantity();
+        List<OrderSales> sales = salesRepository.getOrderSalesSortedByQuantity();
         sales.forEach(sale -> {
             System.out.println(sale.toString());
         });

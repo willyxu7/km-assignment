@@ -1,12 +1,11 @@
 package com.km.assignment.mapper;
 
-import com.km.assignment.model.OrderSalesList;
+import com.km.assignment.entity.OrderSales;
 import com.km.assignment.model.OrderSalesResponse;
-import com.km.assignment.model.UpdatePaymentToPaidResponse;
 
 public class OrderSalesMapper {
 
-    public static OrderSalesResponse mapOrderSalesToOrderSalesResponse(OrderSalesList orderSalesList) {
+    public static OrderSalesResponse mapOrderSalesToOrderSalesResponse(OrderSales orderSalesList) {
         return OrderSalesResponse.builder()
                 .orderNo(orderSalesList.getOrderNo())
                 .bizDate(orderSalesList.getBizDate())

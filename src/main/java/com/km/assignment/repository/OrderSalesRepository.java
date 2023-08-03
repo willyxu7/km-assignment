@@ -1,6 +1,6 @@
 package com.km.assignment.repository;
 
-import com.km.assignment.model.OrderSalesList;
+import com.km.assignment.entity.OrderSales;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -17,6 +17,6 @@ public interface OrderSalesRepository {
             + " FROM orders"
             + " LEFT JOIN order_detail ON orders.order_no = order_detail.order_no"
             + " LEFT JOIN product ON order_detail.item_id = product.ID ORDER BY quantity DESC")
-    public List<OrderSalesList> getOrderSalesSortedByQuantity();
+    public List<OrderSales> getOrderSalesSortedByQuantity();
 
 }

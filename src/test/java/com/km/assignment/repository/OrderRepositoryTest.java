@@ -3,15 +3,12 @@ package com.km.assignment.repository;
 import com.km.assignment.entity.Order;
 import com.km.assignment.entity.Status;
 import com.km.assignment.helper.DateHelper;
-import com.km.assignment.helper.NumberHelper;
 import com.km.assignment.helper.OrderHelper;
 import com.km.assignment.model.UpdateOrderQuantityRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.math.BigInteger;
-import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +25,7 @@ class OrderRepositoryTest {
                 .id(UUID.randomUUID().toString().replace("-", ""))
                 .bizDate(DateHelper.generateDate())
                 .status(Status.PENDING_PAYMENT.getStatusInt())
-                .orderNo(OrderHelper.generateOrderCode())
+                .orderNo(OrderHelper.generateOrderNumber())
                 .remark("")
                 .creator("1")
                 .createdTime(System.currentTimeMillis())

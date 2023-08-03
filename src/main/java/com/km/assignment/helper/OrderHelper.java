@@ -4,8 +4,8 @@ import com.km.assignment.entity.Status;
 
 public class OrderHelper {
 
-    public static String generateOrderCode() {
-        return "Order" + DateHelper.generateDate() + NumberHelper.generateRandomNumber();
+    public static String generateOrderNumber() {
+        return "Order" + DateHelper.generateDate();
     }
 
     public static String convertStatus(int status) {

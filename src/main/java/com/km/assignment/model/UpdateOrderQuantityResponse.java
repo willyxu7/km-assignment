@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class UpdateOrderQuantityResponse {
 
     private String orderId;
+
     private long quantity;
 
 }

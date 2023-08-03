@@ -1,7 +1,7 @@
 package com.km.assignment.service.impl;
 
 import com.km.assignment.mapper.OrderSalesMapper;
-import com.km.assignment.model.OrderSalesList;
+import com.km.assignment.entity.OrderSales;
 import com.km.assignment.model.OrderSalesResponse;
 import com.km.assignment.repository.OrderSalesRepository;
 import com.km.assignment.service.OrderSalesService;
@@ -21,7 +21,7 @@ public class OrderSalesServiceImpl implements OrderSalesService {
 
     @Override
     public List<OrderSalesResponse> getOrderSalesSortedByQuantity() {
-        List<OrderSalesList> orderSalesLists = orderSalesRepository.getOrderSalesSortedByQuantity();
+        List<OrderSales> orderSalesLists = orderSalesRepository.getOrderSalesSortedByQuantity();
 
         return orderSalesLists.stream()
                 .map(OrderSalesMapper::mapOrderSalesToOrderSalesResponse)

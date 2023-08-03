@@ -4,13 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.km.assignment.entity.Order;
 import com.km.assignment.entity.Product;
+import com.km.assignment.entity.User;
 import com.km.assignment.model.CreateOrderRequest;
 import com.km.assignment.model.UpdateOrderQuantityRequest;
 import com.km.assignment.model.UpdatePaymentToPaidRequest;
 import com.km.assignment.repository.OrderRepository;
 import com.km.assignment.repository.ProductRepository;
 import com.km.assignment.repository.UserRepository;
+import com.km.assignment.service.OrderService;
+import com.km.assignment.service.ProductService;
+import com.km.assignment.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,10 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,24 +39,30 @@ class OrderControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderService orderService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
+    private Random random;
+
+    @BeforeEach
+    void setUp() {
+        random = new Random();
+    }
+
     @Test
     void testInsertOrderSuccess() throws Exception {
-        Random random = new Random();
-        List<Product> products = productRepository.getLimit(10);
+        List<Product> products = productService.getLimit(5);
         products.forEach(product -> {
             CreateOrderRequest createOrderRequest = new CreateOrderRequest();
-            createOrderRequest.setUserId(userRepository.getOne().getId());
+            createOrderRequest.setUserId(userService.getOne().getId());
             createOrderRequest.setItemId(product.getId());
             createOrderRequest.setQuantity(random.nextLong(100));
 
@@ -73,9 +81,93 @@ class OrderControllerTest {
         });
     }
 
+    /***
+     * Don't forget to change user id with existing user id in database
+     * @throws InterruptedException
+     */
+    @Test
+    void testInsertOrderSuccessMultiThread() throws InterruptedException {
+        List<Product> products = productService.getLimit(5);
+        Optional<User> user1 = userService.findById("36e2a39c885c4c38a8191d6338d8c2e0");
+        Optional<User> user2 = userService.findById("bd09388ce44540c8b0b273a2f47b71f6");
+        Optional<User> user3 = userService.findById("f6a545a2a8fd41fc9e5c7cd5324af272");
+
+        new Thread(() -> {
+            System.out.println("Thread is running");
+        }).start();
+
+        new Thread(() -> {
+            products.forEach(product -> {
+                CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+                createOrderRequest.setUserId(user1.get().getId());
+                createOrderRequest.setItemId(product.getId());
+                createOrderRequest.setQuantity(random.nextLong(100));
+
+                try {
+                    String createOrderRequestJson = objectMapper.writeValueAsString(createOrderRequest);
+                    mockMvc.perform(
+                            post("/order")
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .content(createOrderRequestJson)
+                    ).andExpectAll(
+                            status().isOk()
+                    );
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }).start();
+
+        new Thread(() -> {
+            products.forEach(product -> {
+                CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+                createOrderRequest.setUserId(user2.get().getId());
+                createOrderRequest.setItemId(product.getId());
+                createOrderRequest.setQuantity(random.nextLong(100));
+
+                try {
+                    String createOrderRequestJson = objectMapper.writeValueAsString(createOrderRequest);
+                    mockMvc.perform(
+                            post("/order")
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .content(createOrderRequestJson)
+                    ).andExpectAll(
+                            status().isOk()
+                    );
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }).start();
+
+        new Thread(() -> {
+            products.forEach(product -> {
+                CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+                createOrderRequest.setUserId(user3.get().getId());
+                createOrderRequest.setItemId(product.getId());
+                createOrderRequest.setQuantity(random.nextLong(100));
+
+                try {
+                    String createOrderRequestJson = objectMapper.writeValueAsString(createOrderRequest);
+                    mockMvc.perform(
+                            post("/order")
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .content(createOrderRequestJson)
+                    ).andExpectAll(
+                            status().isOk()
+                    );
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }).start();
+
+        Thread.sleep(10 * 1000);
+    }
+
     @Test
     void testUpdatePaymentToPaid() throws Exception {
-        Order order = orderRepository.findOne();
+        Order order = orderService.findOne();
 
         UpdatePaymentToPaidRequest request = new UpdatePaymentToPaidRequest(order.getId());
         String requestJson = objectMapper.writeValueAsString(request);
@@ -97,9 +189,9 @@ class OrderControllerTest {
 
         mockMvc
                 .perform(
-                    patch("/order/"+ orderId +"/quantity")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(updateOrderQuantityJson)
+                        patch("/order/" + orderId + "/quantity")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(updateOrderQuantityJson)
                 ).andExpectAll(status().isOk());
     }
 
@@ -112,7 +204,7 @@ class OrderControllerTest {
 
         mockMvc
                 .perform(
-                        patch("/order/"+ orderId +"/quantity")
+                        patch("/order/" + orderId + "/quantity")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(updateOrderQuantityJson)
                 ).andExpectAll(status().isBadRequest());

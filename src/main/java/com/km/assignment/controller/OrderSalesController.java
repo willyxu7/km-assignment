@@ -15,7 +15,7 @@ public class OrderSalesController {
     @Autowired
     private OrderSalesService orderSalesService;
 
-    @GetMapping("/order/sales")
+    @GetMapping("/order-sales")
     public ResponseEntity<List<OrderSalesResponse>> getOrderSalesSortedByQuantity() {
         return ResponseEntity.ok(orderSalesService.getOrderSalesSortedByQuantity());
     }

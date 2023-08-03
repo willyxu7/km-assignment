@@ -1,4 +1,4 @@
-package com.km.assignment.model;
+package com.km.assignment.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderSalesList {
+public class OrderSales {
 
     private String orderNo;
     private int bizDate;

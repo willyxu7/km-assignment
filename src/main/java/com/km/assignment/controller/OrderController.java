@@ -1,6 +1,7 @@
 package com.km.assignment.controller;
 
 import com.km.assignment.exception.FailedUpdatePaymentException;
+import com.km.assignment.exception.FailedUpdateQuantityException;
 import com.km.assignment.exception.ProductNotFoundException;
 import com.km.assignment.exception.UserNotFoundException;
 import com.km.assignment.model.*;
@@ -32,7 +33,7 @@ public class OrderController {
     public ResponseEntity<UpdateOrderQuantityResponse> updateOrderQuantity(
             @PathVariable String orderId,
             @Valid @RequestBody UpdateOrderQuantityRequest updateOrderQuantityRequest
-    ) {
+    ) throws FailedUpdateQuantityException {
         UpdateOrderQuantityResponse updateOrderQuantityResponse = orderService.updateOrderQuantity(orderId, updateOrderQuantityRequest);
         return ResponseEntity.ok(updateOrderQuantityResponse);
     }

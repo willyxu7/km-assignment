@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface SysSeqRepository {
 
-    @Select("SELECT * FROM sys_seq WHERE seq_key = #{seqKey}")
+    @Select("SELECT * FROM sys_seq WHERE seq_key = #{seqKey} FOR UPDATE")
     public SysSeq findByKey(String key);
 
     @Insert("INSERT INTO sys_seq(ID, seq_key, value) VALUES (#{id}, #{seqKey}, #{value})")
