@@ -12,17 +12,17 @@ import java.util.Optional;
 @Mapper
 public interface UserRepository {
 
-    @Insert("INSERT INTO user(ID, code, name, status, remark, deleted, creator, created_time)" +
-    " VALUES (#{id}, #{code}, #{name}, #{status}, #{remark}, #{deleted}, #{creator}, #{createdTime})")
+    //    @Insert("INSERT INTO user(ID, code, name, status, remark, deleted, creator, created_time)" +
+//    " VALUES (#{id}, #{code}, #{name}, #{status}, #{remark}, #{deleted}, #{creator}, #{createdTime})")
     public Integer insert(User user);
 
-    @Select("SELECT * FROM user WHERE ID = #{id}")
+    //    @Select("SELECT * FROM user WHERE ID = #{id}")
     public Optional<User> findById(@Param("id") String id);
 
-    @Select("SELECT * FROM user LIMIT 1")
+    //    @Select("SELECT * FROM user LIMIT 1")
     public User getOne();
 
-    @Select("SELECT COUNT(*) FROM user")
+    //    @Select("SELECT COUNT(*) FROM user")
     public Integer count();
 
 }

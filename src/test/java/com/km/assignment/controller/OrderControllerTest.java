@@ -88,9 +88,9 @@ class OrderControllerTest {
     @Test
     void testInsertOrderSuccessMultiThread() throws InterruptedException {
         List<Product> products = productService.getLimit(5);
-        Optional<User> user1 = userService.findById("36e2a39c885c4c38a8191d6338d8c2e0");
-        Optional<User> user2 = userService.findById("bd09388ce44540c8b0b273a2f47b71f6");
-        Optional<User> user3 = userService.findById("f6a545a2a8fd41fc9e5c7cd5324af272");
+        Optional<User> user1 = userService.findById("001571ba446a4fd89a2316ed5ae9da29");
+        Optional<User> user2 = userService.findById("12b054b9c46340058c1e39ae8bcf51d6");
+        Optional<User> user3 = userService.findById("3fbefcea88bc442980e654cd61fde2ff");
 
         new Thread(() -> {
             System.out.println("Thread is running");

@@ -38,20 +38,20 @@ class OrderRepositoryTest {
 
     @Test
     void testChangePaymentStatusToPaid() {
-        Order order = orderRepository.findOne();
+        Order order = orderRepository.getOne();
 
         Integer updated = orderRepository.updatePaymentToPaid(order.getId());
         order = orderRepository.findById(order.getId());
 
         assertEquals(1, updated);
-        assertEquals(3, order.getStatus());
+        assertEquals(2, order.getStatus());
     }
 
     @Test
     void testUpdateOrderQuantity() {
-        UpdateOrderQuantityRequest updateOrderQuantityRequest = new UpdateOrderQuantityRequest(30);
+        UpdateOrderQuantityRequest updateOrderQuantityRequest = new UpdateOrderQuantityRequest(777);
 
-        Order order = orderRepository.findOne();
+        Order order = orderRepository.getOne();
 
         Integer updateOrderQuantity = orderRepository.updateOrderQuantity(order.getId(), updateOrderQuantityRequest);
 
@@ -62,7 +62,7 @@ class OrderRepositoryTest {
     void testUpdateOrderQuantityFailBecauseStatusPaid() {
         UpdateOrderQuantityRequest updateOrderQuantityRequest = new UpdateOrderQuantityRequest(40);
 
-        Order order = orderRepository.findOne();
+        Order order = orderRepository.getOne();
 
         Integer updateOrderQuantity = orderRepository.updateOrderQuantity(order.getId(), updateOrderQuantityRequest);
 

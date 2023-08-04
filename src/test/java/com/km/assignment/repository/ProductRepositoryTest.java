@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigInteger;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,6 +33,29 @@ class ProductRepositoryTest {
         );
         Integer inserted = productRepository.insert(product);
         assertEquals(1, inserted);
+    }
 
+    @Test
+    void testGetOne() {
+        Product product = productRepository.getOne();
+        assertNotNull(product);
+    }
+
+    @Test
+    void testGetLimit() {
+        List<Product> products = productRepository.getLimit(10);
+        assertEquals(10, products.size());
+    }
+
+    @Test
+    void testCount() {
+        Integer count = productRepository.count();
+        assertEquals(30, count);
+    }
+
+    @Test
+    void testFindById() {
+        Optional<Product> product = productRepository.findById("1");
+        assertEquals("Legion 5", product.get().getName());
     }
 }

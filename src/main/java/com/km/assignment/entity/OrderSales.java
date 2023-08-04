@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderSales {
 
+    private String id;
     private String orderNo;
     private int bizDate;
     private int status;
@@ -20,8 +21,9 @@ public class OrderSales {
 
     @Override
     public String toString() {
-        return "SalesList{" +
-                "orderNo='" + orderNo + '\'' +
+        return "OrderSales{" +
+                "id='" + id + '\'' +
+                ", orderNo='" + orderNo + '\'' +
                 ", bizDate=" + bizDate +
                 ", status=" + status +
                 ", creator='" + creator + '\'' +

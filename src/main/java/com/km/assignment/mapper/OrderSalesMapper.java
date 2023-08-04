@@ -7,6 +7,7 @@ public class OrderSalesMapper {
 
     public static OrderSalesResponse mapOrderSalesToOrderSalesResponse(OrderSales orderSalesList) {
         return OrderSalesResponse.builder()
+                .id(orderSalesList.getId())
                 .orderNo(orderSalesList.getOrderNo())
                 .bizDate(orderSalesList.getBizDate())
                 .status(orderSalesList.getStatus())

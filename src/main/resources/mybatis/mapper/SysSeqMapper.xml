@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.km.assignment.repository.SysSeqRepository">
+    <resultMap id="result" type="sysSeq">
+        <id property="id" column="ID"/>
+        <result property="seqKey" column="seq_key"/>
+        <result property="value" column="value"/>
+    </resultMap>
+
+    <select id="findByKey" resultType="sysSeq" resultMap="result">
+        SELECT * FROM sys_seq WHERE seq_key = #{seqKey} FOR UPDATE
+    </select>
+
+    <insert id="insert" keyProperty="id" parameterType="sysSeq">
+        INSERT INTO sys_seq(ID, seq_key, value)
+        VALUES (#{id}, #{seqKey}, #{value})
+    </insert>
+
+    <update id="updateValue" parameterType="sysSeq">
+        UPDATE sys_seq SET value=#{value} WHERE seq_key=#{seqKey}
+    </update>
+</mapper>

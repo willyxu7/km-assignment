@@ -9,10 +9,7 @@ import com.km.assignment.helper.DateHelper;
 import com.km.assignment.helper.OrderHelper;
 import com.km.assignment.mapper.OrderMapper;
 import com.km.assignment.model.*;
-import com.km.assignment.repository.OrderDetailRepository;
 import com.km.assignment.repository.OrderRepository;
-import com.km.assignment.repository.ProductRepository;
-import com.km.assignment.repository.UserRepository;
 import com.km.assignment.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findOne() {
-        return orderRepository.findOne();
+        return orderRepository.getOne();
     }
 
 }

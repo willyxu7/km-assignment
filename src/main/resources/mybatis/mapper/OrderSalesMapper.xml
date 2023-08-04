@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.km.assignment.repository.OrderSalesRepository">
+    <resultMap id="result" type="orderSales">
+        <result property="orderNo" column="orderNo"/>
+        <result property="bizDate" column="bizDate"/>
+        <result property="status" column="status"/>
+        <result property="creator" column="creator"/>
+        <result property="productCode" column="productCode"/>
+        <result property="productName" column="productName"/>
+        <result property="quantity" column="quantity"/>
+        <result property="unit" column="unit"/>
+    </resultMap>
+
+    <select id="getOrderSalesSortedByQuantity"  resultType="orderSales" resultMap="result">
+        SELECT
+            orders.ID as id,
+            orders.order_no as orderNo,
+            orders.biz_date as bizDate,
+            orders.status as status,
+            orders.creator as creator,
+            product.code as productCode,
+            product.name as productName,
+            order_detail.quantity as quantity,
+            order_detail.unit as unit
+        FROM orders
+        LEFT JOIN
+            order_detail ON orders.order_no = order_detail.order_no
+        LEFT JOIN
+            product ON order_detail.item_id = product.ID ORDER BY quantity DESC
+    </select>
+</mapper>

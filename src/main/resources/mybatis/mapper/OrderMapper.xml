@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.km.assignment.repository.OrderRepository">
+    <resultMap id="result" type="order">
+        <id property="id" column="ID"/>
+        <result property="bizDate" column="biz_date"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="creator" column="creator"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+
+    <select id="findById"  parameterType="String" resultType="order" resultMap="result">
+        SELECT * FROM orders WHERE ID=#{id}
+    </select>
+
+    <select id="getOne" resultType="order" resultMap="result">
+        SELECT * FROM orders LIMIT 1
+    </select>
+
+    <insert id="insert" keyProperty="id" parameterType="order">
+        INSERT INTO orders(ID, biz_date, order_no, status, remark, creator, created_time)
+        VALUES (#{id}, #{bizDate}, #{orderNo}, #{status}, #{remark}, #{creator}, #{createdTime})
+    </insert>
+
+    <update id="updatePaymentToPaid" parameterType="String">
+        UPDATE orders set status=2 WHERE ID=#{id} AND status=1
+    </update>
+
+    <update id="updateOrderQuantity">
+        UPDATE
+            orders, order_detail
+        SET
+            order_detail.quantity=#{updateOrderQuantityRequest.quantity}
+        WHERE
+            orders.id=#{id}
+        AND
+            order_detail.order_no = orders.order_no AND orders.status=1
+    </update>
+</mapper>

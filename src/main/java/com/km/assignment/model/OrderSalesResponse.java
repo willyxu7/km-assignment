@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class OrderSalesResponse {
 
+    private String id;
     private String orderNo;
     private int bizDate;
     private int status;
